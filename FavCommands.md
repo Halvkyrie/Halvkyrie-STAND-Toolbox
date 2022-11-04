@@ -20,7 +20,6 @@
 ### `performance`
 - Gives your vehicle max level performance upgrades.
 
-
 ### `ceotomc` and `mctoceo` aka CEO to MC, and MC to CEO
 - Changes your organization type without having to resign/retire and reinvite organization members.
 
@@ -31,3 +30,7 @@
 
 ### `skipcutscene`
 - Skips the currently playing cutscene
+
+### `go <sessiontype>`
+- Sends you into a new session of your desired type, such as `public`, or `solopublic` if you want to create a new public session. Use just `go` to open the menu showing you the options.
+ 
