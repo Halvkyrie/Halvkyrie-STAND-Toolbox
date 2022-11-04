@@ -3,7 +3,7 @@
 
 
 > ### `callpv`
-> - Calls your Vurrent personal Vehicle. Has to exist in the world already.
+> - Calls your current Personal Vehicle. Has to exist in the world already.
 
 > ### `findpv <keyword>`
 > - Searches through your list of Personal Vehicles.
