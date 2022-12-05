@@ -46,6 +46,11 @@ players.add_command_hook(function(player_id)
         util.toast("Current weapon hash is ".. tostring(player_ped_weapon))
     end, nil, nil, COMMANDPERM_FRIENDLY)
 
+    menu.action(PLAYER_OPTIONS_WEAPONS_DEBUG_LIST, "[DEBUG] Remove Hazardous Jerry Can ammo", {"removehazardcanammo"}, "", function()
+        local player_ped = PLAYER.GET_PLAYER_PED(player_id)
+        local hazardcan_hash = util.joaat("weapon_hazardcan")
+        WEAPON.SET_PED_AMMO(player_ped, hazardcan_hash, 0)
+        
     
     menu.action(PLAYER_OPTIONS_WEAPONS_LIST, "Remove Hazardous Jerry Can", {"removehazardcan"}, "", function()
         local player_ped = PLAYER.GET_PLAYER_PED(player_id)
