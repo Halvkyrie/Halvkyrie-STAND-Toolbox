@@ -80,6 +80,12 @@ players.add_command_hook(function(player_id)
         local hazardcan_hash = util.joaat("weapon_hazardcan")
         WEAPON.SET_PED_AMMO(player_ped, hazardcan_hash, 0)
     end)
+
+    menu.action(PLAYER_OPTIONS_WEAPONS_DEBUG_LIST, "[DEBUG] Remove all current weapon ammo", {"removeammo"}, "", function()
+        local player_ped = PLAYER.GET_PLAYER_PED(player_id)
+        local current_weapon_hash = WEAPON.GET_SELECTED_PED_WEAPON(player_ped)
+        WEAPON.SET_PED_AMMO(player_ped, current_weapon_hash, 0)
+    end)
         
     
     menu.action(PLAYER_OPTIONS_WEAPONS_LIST, "Remove Hazardous Jerry Can", {"removehazardcan"}, "", function()
