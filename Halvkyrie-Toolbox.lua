@@ -45,7 +45,7 @@ menu.action(EQUIPMENT_MENU_HELMET_LIST, "Equip Motorbike Helmet", {"mchelmon"}, 
     if player_has_helmet == true then
         util.toast("You are already wearing a helmet?")
     else
-        PED.GIVE_PED_HELMET(player_ped, false, HF_MC_Helmet, 8)
+        PED.GIVE_PED_HELMET(player_ped, false, HF_MC_Helmet)
         util.toast("Equipped Motorcycle Helmet (Hopefully)")
     end
 end)
