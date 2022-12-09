@@ -27,6 +27,35 @@ drawScriptMenu = function()
 
 end
 
+drawScriptMenu()
+
+
+-- Equipment Menu
+
+local EQUIPMENT_MENU_LIST = menu.list(menu.my_root(), "Equipment")
+
+local EQUIPMENT_MENU_HELMET_LIST = menu.list(EQUIPMENT_MENU_LIST, "Helmet")
+
+-- Helmet stuff
+
+menu.action(EQUIPMENT_MENU_HELMET_LIST, "Equip Motorbike Helmet", {"mchelmon"}, "Equips your Motorcycle Helmet", function()
+    local HF_MC_Helmet = 4096
+    local player_ped = PLAYER.GET_PLAYER_PED(player_id)
+    local player_has_helmet = PED.IS_PED_WEARING_HELMET(player_ped)
+    if player_has_helmet == true then
+        util.toast("You are already wearing a helmet?")
+    else
+        PED.GIVE_PED_HELMET(player_ped, false, HF_MC_Helmet, 8)
+        util.toast("Equipped Motorcycle Helmet (Hopefully)")
+    end
+end)
+
+menu.action(EQUIPMENT_MENU_HELMET_LIST, "Unequip Helmet", {"helmoff"}, "Unequips any current helmet", function()
+    local player_ped = PLAYER.GET_PLAYER_PED(player_id)
+    local remove_instant = false
+    PED.REMOVE_PED_HELMET(player_ped, remove_instant)
+end)
+
 -- Player Options
 
 players.add_command_hook(function(player_id)
@@ -50,6 +79,7 @@ players.add_command_hook(function(player_id)
         local player_ped = PLAYER.GET_PLAYER_PED(player_id)
         local hazardcan_hash = util.joaat("weapon_hazardcan")
         WEAPON.SET_PED_AMMO(player_ped, hazardcan_hash, 0)
+    end)
         
     
     menu.action(PLAYER_OPTIONS_WEAPONS_LIST, "Remove Hazardous Jerry Can", {"removehazardcan"}, "", function()
@@ -72,7 +102,7 @@ end)
 
 -- Make the menu do the thing
 
-drawScriptMenu()
+
 
 while true do
     util.yield()
