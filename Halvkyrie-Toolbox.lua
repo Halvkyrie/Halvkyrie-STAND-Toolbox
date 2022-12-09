@@ -52,8 +52,14 @@ end)
 
 menu.action(EQUIPMENT_MENU_HELMET_LIST, "Unequip Helmet", {"helmoff"}, "Unequips any current helmet", function()
     local player_ped = players.user_ped()
+    local player_has_helmet = PED.IS_PED_WEARING_HELMET(player_ped)
     local remove_instant = false
-    PED.REMOVE_PED_HELMET(player_ped, remove_instant)
+    if player_has_helmet == true then
+        PED.REMOVE_PED_HELMET(player_ped, remove_instant)
+        util.toast("Removed Helmet")
+    else
+        util.toast("You are not wearing a helmet. None to unequip")
+    end
 end)
 
 -- Player Options
