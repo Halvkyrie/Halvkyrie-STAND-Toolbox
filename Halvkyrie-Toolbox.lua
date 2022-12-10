@@ -9,7 +9,7 @@ util.require_natives(1651208000)
 
 local SCRIPT_NAME = "Halvkyrie's Toolbox"
 local SCRIPT_SHORT_NAME = "HalvTools"
-local SCRIPT_VERSION = "0.1"
+local SCRIPT_VERSION = "0.1.3"
 local SCRIPT_SOURCE = "https://github.com/Halvkyrie/Halvkyrie-STAND-Toolbox"
 
 -- Script Meta Menu
