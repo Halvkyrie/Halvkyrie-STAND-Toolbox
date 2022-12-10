@@ -29,11 +29,39 @@ end
 
 drawScriptMenu()
 
+-- UI / HUD Menu
+
+local UI_MENU_LIST = menu.list(menu.my_root(), "UI and HUD")
+local UI_MENU_DEBUG_LIST = menu.list(UI_MENU_LIST, "[DEBUG] Options")
+
+menu.action(UI_MENU_DEBUG_LIST, "[DEBUG] Help msg check", {"checkhelpmsg"}, "", function()
+
+    local help_msg_on_screen = HUD.IS_HELP_MESSAGE_ON_SCREEN()
+    local help_msg_displayed = HUD.IS_HELP_MESSAGE_BEING_DISPLAYED()
+
+    if help_msg_on_screen == true then
+        util.toast("Help Message is on screen")
+    else
+        util.toast("Help Message is not on screen")
+    end
+    
+    if help_msg_displayed == true then
+        util.toast("Help Message is being displayed")
+    else
+        util.toast("Help Message is not being displayed")
+    end
+
+end)
+
+menu.action(UI_MENU_LIST, "Clear help message", {"clearhelp"}, "", function()
+    HUD.CLEAR_HELP()
+end)
+
+
 
 -- Equipment Menu
 
 local EQUIPMENT_MENU_LIST = menu.list(menu.my_root(), "Equipment")
-
 local EQUIPMENT_MENU_HELMET_LIST = menu.list(EQUIPMENT_MENU_LIST, "Helmet")
 
 -- Helmet stuff
