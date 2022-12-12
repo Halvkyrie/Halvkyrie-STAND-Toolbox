@@ -2,6 +2,13 @@
 -- Source: https://github.com/Halvkyrie/Halvkyrie-STAND-Toolbox
 -- Don't steal thanks
 
+--[[
+    THANK YOU!
+    to a lot of people, for making scripts that i can look at at learn from.
+    Particularly: IceDoomFist, Lance, CocoW, Jackz, and more. I'm sorry if i forgot any
+]]--
+
+
 -- Requirements 
 util.require_natives(1651208000)
 
@@ -9,7 +16,7 @@ util.require_natives(1651208000)
 
 local SCRIPT_NAME = "Halvkyrie's Toolbox"
 local SCRIPT_SHORT_NAME = "HalvTools"
-local SCRIPT_VERSION = "0.1.3"
+local SCRIPT_VERSION = "0.1.4"
 local SCRIPT_SOURCE = "https://github.com/Halvkyrie/Halvkyrie-STAND-Toolbox"
 
 -- Script Meta Menu
@@ -20,6 +27,15 @@ menu.divider(SCRIPT_META_LIST, "By Halvkyrie")
 menu.hyperlink(SCRIPT_META_LIST, "Source Code on GitHub", SCRIPT_SOURCE, "View the source code on GitHub")
 menu.hyperlink(SCRIPT_META_LIST, "My Page", "https://halvkyrie.github.io/", "Don't click it if you hate comic sans")
 
+
+-- Globals things. Oh boy. Thanks IceDoomFist
+
+function SET_INT_GLOBAL(Global, Value)
+    memory.write_int(memory.script_global(Global), Value)
+end
+function SET_FLOAT_GLOBAL(Global, Value)
+    memory.write_float(memory.script_global(Global), Value)
+end
 -- The rest
 
 drawScriptMenu = function()
@@ -58,6 +74,20 @@ menu.action(UI_MENU_LIST, "Clear help message", {"clearhelp"}, "", function()
 end)
 
 
+-- Services and Vehicles
+
+local SERVICE_MENU_LIST = menu.list(menu.my_root(), "Services and Vehicles")
+local SERVICE_MENU_VEHICLES_LIST = menu.list(SERVICE_MENU_LIST, "Vehicles")
+local SERVICE_MENU_VEHICLES_RETURN_LIST = menu.list(SERVICE_MENU_VEHICLES_LIST, "Return Vehicle")
+
+--[[ Need to figure this shit out :(
+menu.action(SERVICE_MENU_VEHICLES_LIST, "Request Sparrow", {"reqsparrow"}, "Requests Sparrow via Kosatka", function()
+    SET_INT_GLOBAL(??)
+end)
+
+menu.action(SERVICE_MENU_VEHICLES_RETURN_LIST, "Return Moon Pool Vehicle", {"retmpveh"}, "Returns current Moon Pool vehicle to Kosatka", function()
+    SET_INT_GLOBAL(??)
+end)]]--
 
 -- Equipment Menu
 
@@ -66,7 +96,7 @@ local EQUIPMENT_MENU_HELMET_LIST = menu.list(EQUIPMENT_MENU_LIST, "Helmet")
 
 -- Helmet stuff
 
-menu.action(EQUIPMENT_MENU_HELMET_LIST, "Equip Motorbike Helmet", {"mchelmon"}, "Equips your Motorcycle Helmet", function()
+menu.action(EQUIPMENT_MENU_HELMET_LIST, "Equip Motorbike Helmet", {"mchelmon"}, "Equips your Motorcycle Helmet. NOTE: This doesn't fetch the textureIndex for the helmet properly, so it will use the default texture for that helmet type. i think.", function()
     local HF_MC_Helmet = 4096
     local player_ped = players.user_ped()
     local player_has_helmet = PED.IS_PED_WEARING_HELMET(player_ped)
@@ -98,44 +128,47 @@ players.add_command_hook(function(player_id)
     -- Player Option Categories
 
     local PLAYER_OPTIONS_WEAPONS_LIST = menu.list(menu.player_root(player_id), "Weapons")
-
-    -- Weapons Debug
-
     local PLAYER_OPTIONS_WEAPONS_DEBUG_LIST = menu.list(PLAYER_OPTIONS_WEAPONS_LIST, "[DEBUG OPTIONS]")
+    local PLAYER_OPTIONS_WEAPONS_ADD_LIST = menu.list(PLAYER_OPTIONS_WEAPONS_LIST, "Add/Give Options")
+    local PLAYER_OPTIONS_WEAPONS_REMOVE_LIST = menu.list(PLAYER_OPTIONS_WEAPONS_LIST, "Remove Options")
 
     menu.action(PLAYER_OPTIONS_WEAPONS_DEBUG_LIST, "[DEBUG] Get current weapon hash", {"getweaponhash"}, "", function()
         local player_ped = PLAYER.GET_PLAYER_PED(player_id)
         local player_ped_weapon = WEAPON.GET_SELECTED_PED_WEAPON(player_ped)
         util.toast("Current weapon hash is ".. tostring(player_ped_weapon))
-    end, nil, nil, COMMANDPERM_FRIENDLY)
-
+    end)
     menu.action(PLAYER_OPTIONS_WEAPONS_DEBUG_LIST, "[DEBUG] Remove Hazardous Jerry Can ammo", {"removehazardcanammo"}, "", function()
         local player_ped = PLAYER.GET_PLAYER_PED(player_id)
         local hazardcan_hash = util.joaat("weapon_hazardcan")
         WEAPON.SET_PED_AMMO(player_ped, hazardcan_hash, 0)
     end)
-
     menu.action(PLAYER_OPTIONS_WEAPONS_DEBUG_LIST, "[DEBUG] Remove all current weapon ammo", {"removeammo"}, "", function()
         local player_ped = PLAYER.GET_PLAYER_PED(player_id)
         local current_weapon_hash = WEAPON.GET_SELECTED_PED_WEAPON(player_ped)
         WEAPON.SET_PED_AMMO(player_ped, current_weapon_hash, 0)
     end)
-        
-    
-    menu.action(PLAYER_OPTIONS_WEAPONS_LIST, "Remove Hazardous Jerry Can", {"removehazardcan"}, "", function()
+    menu.action(PLAYER_OPTIONS_WEAPONS_DEBUG_LIST, "[DEBUG] Remove Hazardous Jerry Can", {"removehazardcan"}, "", function()
         local player_ped = PLAYER.GET_PLAYER_PED(player_id)
         local hazardcan_hash = util.joaat("weapon_hazardcan")
         WEAPON.REMOVE_WEAPON_FROM_PED(player_ped, hazardcan_hash)
         util.toast("Player ID is ".. tostring(player_id))
         util.toast("Hazardcan hash is ".. tostring(hazardcan_hash))
-    end, nil, nil, COMMANDPERM_FRIENDLY)
+    end)
 
-    menu.action(PLAYER_OPTIONS_WEAPONS_LIST, "Remove current weapon", {"removecurrentweapon"}, "", function()
+    menu.action(PLAYER_OPTIONS_WEAPONS_REMOVE_LIST, "Remove current weapon", {"removecurrentweapon"}, "", function()
         local player_ped = PLAYER.GET_PLAYER_PED(player_id)
         local current_weapon_hash = WEAPON.GET_SELECTED_PED_WEAPON(player_ped)
         util.toast("Current weapon hash is ".. tostring(current_weapon_hash))
         WEAPON.REMOVE_WEAPON_FROM_PED(player_ped, current_weapon_hash)
-    end, nil, nil, COMMANDPERM_FRIENDLY)
+    end)
+
+    menu.action(PLAYER_OPTIONS_WEAPONS_ADD_LIST, "Copy your current weapon to them", {"givemyweapon"}, "Checks your currently held weapon and gives the same weapon to them", function()
+        local target_player_ped = PLAYER.GET_PLAYER_PED(player_id)
+        local source_player_ped = players.user_ped()
+        local source_player_weapon = WEAPON_GET_SELECTED_PED_WEAPON(source_player_ped)
+        WEAPON.GIVE_WEAPON_TO_PED(target_player_ped, source_player_weapon)
+    end)
+
     
 end)
 
