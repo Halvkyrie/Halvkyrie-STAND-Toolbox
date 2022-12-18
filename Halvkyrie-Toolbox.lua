@@ -165,8 +165,9 @@ players.add_command_hook(function(player_id)
     menu.action(PLAYER_OPTIONS_WEAPONS_ADD_LIST, "Copy your current weapon to them", {"givemyweapon"}, "Checks your currently held weapon and gives the same weapon to them", function()
         local target_player_ped = PLAYER.GET_PLAYER_PED(player_id)
         local source_player_ped = players.user_ped()
-        local source_player_weapon = WEAPON_GET_SELECTED_PED_WEAPON(source_player_ped)
-        WEAPON.GIVE_WEAPON_TO_PED(target_player_ped, source_player_weapon)
+        local source_player_weapon = WEAPON.GET_SELECTED_PED_WEAPON(source_player_ped)
+        local ammo_count = 9999
+        WEAPON.GIVE_WEAPON_TO_PED(target_player_ped, source_player_weapon, ammmo_count, false, true)
     end)
 
     
