@@ -8,9 +8,8 @@
     Particularly: IceDoomFist, Lance, CocoW, Jackz, and more. I'm sorry if i forgot any
 ]]--
 
-
 -- Requirements 
-util.require_natives(1651208000)
+util.require_natives(1672190175)
 
 -- Script Meta
 
@@ -69,9 +68,25 @@ menu.action(UI_MENU_DEBUG_LIST, "[DEBUG] Help msg check", {"checkhelpmsg"}, "", 
 
 end)
 
+menu.action(UI_MENU_DEBUG_LIST, "[DEBUG] Fix perma weapon wheel", {""}, "", function()
+    HUD.HUD_FORCE_WEAPON_WHEEL(false)
+end)
+menu.toggle(UI_MENU_DEBUG_LIST, "[DEBUG] Fuck the Weapon Wheel", {"noweaponwheel"}, "Not quite functional yet..", function(on)
+    while on do
+        HUD.HIDE_HUD_COMPONENT_THIS_FRAME(19)
+        HUD.HIDE_HUD_COMPONENT_THIS_FRAME(20)
+        HUD.HUD_SHOWING_CHARACTER_SWITCH_SELECTION(true)
+        HUD.HUD_FORCE_WEAPON_WHEEL(hide)
+        util.yield()
+    end
+end)
+
 menu.action(UI_MENU_LIST, "Clear help message", {"clearhelp"}, "", function()
     HUD.CLEAR_HELP()
 end)
+
+
+
 
 
 -- Services and Vehicles
